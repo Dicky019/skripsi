@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "23365331530",
+    "firebase_url": "https://detak-jantung-9e6bd-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "detak-jantung-9e6bd",
+    "storage_bucket": "detak-jantung-9e6bd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:23365331530:android:65f90ff12aa7c6433d94b3",
+        "android_client_info": {
+          "package_name": "com.detakjantung.skripsi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "23365331530-6q2tvt43lgfeadang2g10oost57khlsn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD5oWd8XkC-bzBTPzZYO_ePrWJoUmOFKx4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "23365331530-6q2tvt43lgfeadang2g10oost57khlsn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:23365331530:android:78279387bc5b4ded3d94b3",
+        "android_client_info": {
+          "package_name": "com.skripsi.skripsi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "23365331530-6q2tvt43lgfeadang2g10oost57khlsn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD5oWd8XkC-bzBTPzZYO_ePrWJoUmOFKx4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "23365331530-6q2tvt43lgfeadang2g10oost57khlsn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
