@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:line_icons/line_icons.dart';
 
 import '../controllers/home_controller.dart';
+import '../widgets/linear_chart.dart';
 
 class HomeView extends GetView<HomeController> {
   const HomeView({Key? key}) : super(key: key);
@@ -16,11 +17,37 @@ class HomeView extends GetView<HomeController> {
         centerTitle: true,
       ),
       body: controller.obx(
-        (state) => Center(
-          child: Text(
-            state ?? "kosong",
-            style: const TextStyle(fontSize: 20),
-          ),
+        (state) => Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "UMUR ${controller.umurC.text}",
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(
+                    "SEDANG ${controller.activitas}",
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Center(
+              child: LineChartCostum(
+                spots: state!.toList(),
+              ),
+            ),
+          ],
         ),
         onEmpty: const EmptyData(),
       ),
@@ -36,6 +63,7 @@ class EmptyData extends GetView<HomeController> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Form(
+        key: controller.formKey,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -57,7 +85,7 @@ class EmptyData extends GetView<HomeController> {
               keyboardType: TextInputType.number,
               inputFormatters: [FilteringTextInputFormatter.digitsOnly],
               validator: (value) {
-                return value != null && value.trim().isEmpty
+                return value != null && value.trim().isNotEmpty
                     ? null
                     : "Tidak Boleh Kosong";
               },
