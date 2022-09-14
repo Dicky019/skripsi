@@ -31,8 +31,8 @@ class _LineChartState extends State<LineChartCostum> {
         ),
         child: Padding(
           padding: const EdgeInsets.only(
-            right: 12,
-            left: 12,
+            right: 18,
+            left: 18,
             top: 24,
             bottom: 12,
           ),
@@ -52,6 +52,9 @@ class _LineChartState extends State<LineChartCostum> {
     );
     Widget text;
     switch (value.toInt()) {
+      case 0:
+        text = const Text('Detik', style: style);
+        break;
       case 1:
         text = const Text('20', style: style);
         break;
@@ -83,6 +86,9 @@ class _LineChartState extends State<LineChartCostum> {
     // log(meta.max.toString());
     String text;
     switch (value.toInt()) {
+      case 0:
+        text = 'BPD';
+        break;
       case 2:
         text = '20';
         break;

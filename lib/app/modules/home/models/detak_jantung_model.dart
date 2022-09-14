@@ -1,27 +1,37 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:skripsi/app/modules/home/models/bpm_model.dart';
 
-class DetakJantungModel {
-  DetakJantungModel({
+class ModelBPMFirebase {
+  ModelBPMFirebase({
     this.id,
-    required this.jumlah,
+    required this.bpm,
     required this.waktu,
+    required this.aktivitas,
+    required this.umur,
   });
-  String? id;
-  String jumlah;
-  Timestamp waktu;
 
-  factory DetakJantungModel.fromSnapshot(DocumentSnapshot<Map<String, dynamic>> snapshot) {
-   var json = snapshot.data()!;
-   return DetakJantungModel(
-        id: snapshot.id,
-        jumlah: json["Jumlah"],
-        waktu: json["Waktu"],
-      );
+  final String? id;
+  final ModelBpm bpm;
+  final Timestamp waktu;
+  final String aktivitas;
+  final String umur;
+
+  factory ModelBPMFirebase.fromSnapshot(
+      DocumentSnapshot<Map<String, dynamic>> snapshot) {
+    var json = snapshot.data()!;
+    return ModelBPMFirebase(
+      id: snapshot.id,
+      bpm: json["bpm"],
+      waktu: json["waktu"],
+      aktivitas: json["aktivitas"],
+      umur: json["umur"],
+    );
   }
-      
 
   Map<String, dynamic> toJson() => {
-        "Jumlah": jumlah,
-        "Waktu": waktu,
+        "bpm": bpm,
+        "Waktu": Timestamp.now(),
+        "aktivitas": aktivitas,
+        "umur": umur,
       };
 }

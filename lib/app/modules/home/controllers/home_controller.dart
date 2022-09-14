@@ -2,34 +2,39 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+ //  TODO : to local data
+// import 'package:shared_preferences/shared_preferences.dart';
 import 'package:skripsi/app/modules/home/models/detak_jantung_model.dart';
 
-class HomeController extends GetxController
-    with StateMixin<ModelBpm> {
+import '../models/bpm_model.dart';
+import '../views/home_view.dart';
+
+class HomeController extends GetxController with StateMixin<ModelBpm> {
   final firebaseRealtime = FirebaseDatabase.instance.ref("/Status Beat");
   final umurC = TextEditingController();
   final formKey = GlobalKey<FormState>();
-  var activity = false;
+  final activity = Aktivitas.setelahBerolahraga;
+  final isWarning = false.obs;
   String data = "";
-  late SharedPreferences prefs;
+   //  TODO : to local data
+  // late SharedPreferences prefs;
 
-  get activitas => activity ? "BERAKTIVITAS" : "TIDAK BERAKTIVITAS";
+  String get activitas => Aktivitas.setelahBerolahraga == activity ? "Setelah Berolahraga" : "Tidak Berolahraga";
 
   final collectionReferenceDetakJantung = FirebaseFirestore.instance
-      .collection("Data Detak Jantung")
-      .withConverter<DetakJantungModel>(
+      .collection("BPM")
+      .withConverter<ModelBPMFirebase>(
         fromFirestore: (snapshot, options) =>
-            DetakJantungModel.fromSnapshot(snapshot),
+            ModelBPMFirebase.fromSnapshot(snapshot),
         toFirestore: (value, options) => value.toJson(),
       );
 
   @override
   void onInit() async {
-    initData();
+    change(null, status: RxStatus.empty());
+    // initData();
     // getBpm();
     super.onInit();
   }
@@ -40,80 +45,44 @@ class HomeController extends GetxController
       (event) {
         final json = event.snapshot.value as Map;
         final data = ModelBpm.fromJson(json);
-        log(data.toJson().toString());
-        change(data,status: RxStatus.success());
+        change(data, status: RxStatus.success());
+        int umur = int.parse(umurC.text) ;
+        isWarning.value = data.checkBPM(umur);
+        log(isWarning.value.toString());
       },
     );
   }
 
-  void initData() async {
-    prefs = await SharedPreferences.getInstance();
-    umurC.text = prefs.getString("umur") ?? "";
-    activity = prefs.getBool("activity") ?? false;
-    if (umurC.text != "" && activity != false) {
-      getBpm();
-    } else {
-      change(null, status: RxStatus.empty());
-    }
-  }
+  //  TODO : to local data
+  // void initData() async {
+  //   prefs = await SharedPreferences.getInstance();
+  //   umurC.text = prefs.getString("umur") ?? "";
+  //   activity = prefs.getBool("activity") ?? false;
+  //   if (umurC.text != "" && activity != false) {
+  //     getBpm();
+  //   } else {
+  //     change(null, status: RxStatus.empty());
+  //   }
+  // }
 
-  saveData() async {
+  Future<void> saveData() async {
     if (formKey.currentState?.validate() ?? false) {
       change(null, status: RxStatus.loading());
-      await prefs.setString("umur", umurC.text);
-      await prefs.setBool("activity", activity);
+      //  TODO : to local data
+      // await prefs.setString("umur", umurC.text);
+      // await prefs.setBool("activity", activity);
       getBpm();
     }
   }
-
-  // @override
-  // void onReady() {
-  //   super.onReady();
-  // }
-
-  // @override
-  // void onClose() {
-  //   super.onClose();
-  // }
 }
+	// 1.20 thn : normal 100 – 170 bpm, maksimal 200 bpm
+	// 2.30 thn : normal 95 – 162 bpm, maksimal 190 bpm
+	// 3.35 thn : normal 93 – 157 bpm, maksimal 185 bpm
+	// 4.40 thn : normal 90 – 153 bpm, maksimal 170 bpm
+	// 5.45 thn : normal 88 – 149 bpm , maksimal 175 bpm
+	// 6.50 thn : normal 85 – 145 bpm , maksimal 170 bpm
+	// 7.60 thn : normal 80 – 136 bpm , maksimal 160 bpm.
+	// Lansia diatas 60 thn Ketika olahraga = 80 – 130 per menit
 
-class ModelBpm {
-  ModelBpm({
-    this.detikKe1,
-    this.detikKe2,
-    this.detikKe0,
-    this.detikKe5,
-    this.detikKe3,
-    this.detikKe4,
-  });
 
-  final int? detikKe1;
-  final int? detikKe2;
-  final int? detikKe0;
-  final int? detikKe5;
-  final int? detikKe3;
-  final int? detikKe4;
 
-  factory ModelBpm.fromJson(Map<dynamic, dynamic> json) => ModelBpm(
-        detikKe0: json["detik ke 0"],
-        detikKe1: json["detik ke 1"],
-        detikKe2: json["detik ke 2"],
-        detikKe3: json["detik ke 3"],
-        detikKe4: json["detik ke 4"],
-        detikKe5: json["detik ke 5"],
-      );
-
-      List<FlSpot> toList ()  {
-        final listData = [detikKe0,detikKe1,detikKe2,detikKe3,detikKe4,detikKe5];
-        return List.generate(listData.length, (index) => FlSpot(index.toDouble(),listData[index]!.toDouble()));
-      }
-
-  Map<String, dynamic> toJson() => {
-        "detik ke 0": detikKe0,
-        "detik ke 1": detikKe1,
-        "detik ke 2": detikKe2,
-        "detik ke 3": detikKe3,
-        "detik ke 4": detikKe4,
-        "detik ke 5": detikKe5,
-      };
-}
