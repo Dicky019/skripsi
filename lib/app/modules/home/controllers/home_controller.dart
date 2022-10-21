@@ -47,7 +47,7 @@ class HomeController extends GetxController with StateMixin<ModelBpm> {
         final data = ModelBpm.fromJson(json);
         change(data, status: RxStatus.success());
         int umur = int.parse(umurC.text);
-        isWarning.value = data.checkBPM(umur, activity);
+        isWarning.value = data.checkBPM(umur, activity,data.valueBPM());
         appBar.value = "Cek Detak Jantung";
         log(isWarning.value.toString());
       },
