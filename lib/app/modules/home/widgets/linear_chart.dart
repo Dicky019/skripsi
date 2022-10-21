@@ -90,22 +90,34 @@ class _LineChartState extends State<LineChartCostum> {
         text = 'BPD';
         break;
       case 2:
-        text = '20';
+        text = '2';
         break;
       case 4:
-        text = '40';
+        text = '4';
         break;
       case 6:
-        text = '60';
+        text = '6';
         break;
       case 8:
-        text = '80';
+        text = '8';
         break;
       case 10:
-        text = '100';
+        text = '10';
         break;
       case 12:
-        text = '120';
+        text = '12';
+        break;
+      case 14:
+        text = '14';
+        break;
+      case 16:
+        text = '16';
+        break;
+      case 18:
+        text = '18';
+        break;
+      case 20:
+        text = '20';
         break;
       default:
         return Container();
@@ -166,7 +178,7 @@ class _LineChartState extends State<LineChartCostum> {
       minX: 0,
       maxX: 5,
       minY: 0,
-      maxY: 12,
+      maxY: 20,
       lineBarsData: [
         LineChartBarData(
           spots: widget.spots,

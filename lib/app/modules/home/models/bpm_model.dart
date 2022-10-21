@@ -3,6 +3,14 @@ import 'dart:developer';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:get/get.dart';
 
+enum Aktivitas {
+  setelahBerolahraga(true),
+  tidakBerolahraga(false);
+
+  const Aktivitas(this.value);
+  final bool value;
+}
+
 class ModelBpm {
   ModelBpm({
     this.detikKe1,
@@ -29,6 +37,15 @@ class ModelBpm {
         detikKe5: json["detik ke 5"],
       );
 
+  factory ModelBpm.emptyData() => ModelBpm(
+        detikKe0: 0,
+        detikKe1: 0,
+        detikKe2: 0,
+        detikKe3: 0,
+        detikKe4: 0,
+        detikKe5: 0,
+      );
+
   List<int?> get _list =>
       [detikKe0, detikKe1, detikKe2, detikKe3, detikKe4, detikKe5];
 
@@ -45,7 +62,28 @@ class ModelBpm {
     return valueBPM * 2;
   }
 
-  bool checkBPM(int umur) {
+  bool checkBPM(int umur,Aktivitas aktivitas) {
+    return aktivitas.value ? berolahraga(umur) : tidakBerolahraga(umur);
+  }
+
+  bool tidakBerolahraga(int umur){
+    final bpm = valueBPM();
+    if (umur >= 20 && umur <= 60) {
+      if (bpm <= 60) {
+        log("Kurang dari 60");
+        Get.snackbar("Umur $umur", "Kurang dari 60");
+        return true;
+      }
+      if (bpm >= 100) {
+        log("Lebih dari 100");
+        Get.snackbar("Umur $umur", "Lebih dari 100");
+        return true;
+      }
+    }
+    return false;
+  }
+
+  bool berolahraga(int umur){
     final bpm = valueBPM();
     log(umur.toString());
     // TODO : 60
@@ -128,12 +166,12 @@ class ModelBpm {
     }
     // TODO : 20
     else if (umur >= 20) {
-      if (bpm <= 100) {
+      if (bpm <= 99) {
         log("Kurang dari 100");
         Get.snackbar("Umur $umur", "Kurang dari 100");
         return true;
       }
-      if (bpm >= 170) {
+      if (bpm >= 171) {
         log("Lebih dari 170");
         Get.snackbar("Umur $umur", "Lebih dari 170");
         return true;
