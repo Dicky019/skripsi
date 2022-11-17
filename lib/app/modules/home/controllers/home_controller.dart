@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:skripsi/app/util/alert.util.dart';
 //  TODO : to local data
 // import 'package:shared_preferences/shared_preferences.dart';
 
@@ -36,6 +37,12 @@ class HomeController extends GetxController with StateMixin<ModelBpm> {
     change(null, status: RxStatus.empty());
     // initData();
     // getBpm();
+    // isWarning.listen((value) {
+    //   if (condition) {
+
+    //   }
+
+    // });
     super.onInit();
   }
 
@@ -47,7 +54,15 @@ class HomeController extends GetxController with StateMixin<ModelBpm> {
         final data = ModelBpm.fromJson(json);
         change(data, status: RxStatus.success());
         int umur = int.parse(umurC.text);
-        isWarning.value = data.checkBPM(umur, activity,data.valueBPM());
+        isWarning.value = data.checkBPM(umur, activity, data.valueBPM());
+        if (data.detikKe0 != 0 &&
+            data.detikKe1 != 0 &&
+            data.detikKe2 != 0 &&
+            data.detikKe3 != 0 &&
+            data.detikKe4 != 0 &&
+            data.detikKe5 != 0) {
+          AlertUtil.alertCostum(isWarning.value);
+        }
         appBar.value = "Cek Detak Jantung";
         log(isWarning.value.toString());
       },

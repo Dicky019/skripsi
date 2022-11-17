@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import '../controllers/home_controller.dart';
 import '../widgets/animation_widget.dart';
 import '../widgets/linear_chart.dart';
-import '../widgets/state/empty.dart';
+import '../widgets/state/input.dart';
 import '../widgets/text_and_value.dart';
 
 class HomeView extends GetView<HomeController> {
@@ -71,8 +71,9 @@ class HomeView extends GetView<HomeController> {
             )
           ],
         ),
-        onEmpty: const EmptyData(),
+        onEmpty: const InputData(),
       ),
     );
   }
 }
+

@@ -6,8 +6,8 @@ import 'package:line_icons/line_icons.dart';
 import '../../controllers/home_controller.dart';
 import '../../models/bpm_model.dart';
 
-class EmptyData extends GetView<HomeController> {
-  const EmptyData({Key? key}) : super(key: key);
+class InputData extends GetView<HomeController> {
+  const InputData({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
