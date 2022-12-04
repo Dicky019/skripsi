@@ -87,7 +87,7 @@ class _LineChartState extends State<LineChartCostum> {
     String text;
     switch (value.toInt()) {
       case 0:
-        text = 'BPD';
+        text = 'BPM';
         break;
       case 2:
         text = '2';
